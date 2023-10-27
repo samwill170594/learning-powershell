@@ -1,0 +1,25 @@
+- a variable is a container
+- PowerShell contains many built-in and predefined variables
+  but we can create our own variables
+
+- Variables are peristent on a PowerShell session : if the session is closed
+  variables don't exist anymore
+
+- For creating a variable we use the following syntax : 
+  $VariableName = value
+  PS : name of variable starts with '$'
+
+
+Variable cmdlets
+----------------
+- there are variable cmdlets : 
+  * Get-variable (ex : Get-Variable VariableName)
+  * New-Variable (ex : New-Variable -Name VariableName -Value VariableValue)
+  * set-Variable
+  * Clear-Variable
+  * Remove-Variable
+
+HELP ABOUT VARIABLES
+--------------------
+
+we use the command : help about_Variables
