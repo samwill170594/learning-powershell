@@ -23,3 +23,295 @@ HELP ABOUT VARIABLES
 --------------------
 
 we use the command : help about_Variables
+
+
+VARIABLE EXPANSION
+------------------
+- behaviour of variables with single quotes or double quotes
+
+- if a variable is used between single quotes, the variable will be treated as simple text
+
+- if the variable is used between double quotes and the variable is a simple variable (like integer or string), the content of the variable will be interpreted between the double quotes
+
+- if the variable is used between double quotes and the variable is NOT a simple variable (like object or thashtable), the content of the variable WON'T be interpreted between the double quotes.
+In this case, we need to use SUBEXPRESSION OPERATOR ($()) to interpret value of variables
+
+SUBEXPRESSION: "$($variable.property)"
+
+
+COMMON PARAMETERS
+-----------------
+
+- Common parameters are parameters which are used by all PowerShell cmdlets
+
+help about_CommonParameters is the help to see all common parameters
+
+1. COMMON PARAMETERS -OutVariable
+   ------------------------------
+- The common parameter -OutVariable allows to save the result of a cmdlet into a variable
+
+Ex : Get-Process -OutVariable listProcess
+====> shows the result of Get-Process into the console and save this result into listProcess variable
+
+
+
+POWERSHELL OPERATORS
+--------------------
+
+1. COMPARISON OPERATORS
+   --------------------
+
+Comparison operators allows to compare values - the result of the comparison will "True" ou "False"
+By default PowerShell IS NOT CASE SENSITIVE (so Hello is the same as HELLO in PowerShell)
+
+Comparison operators start with a dash "-"
+
+a. Greater than ==> -gt
+
+b. Greater than or equal to ==> -ge 
+
+c. Lesser than ==> -lt 
+
+d. Lesser than or equal to ==> -le 
+
+e. Equal to ==> -eq
+
+f. Not equal to ==> -ne
+
+g. Equal to (and case sensitive) ==> -ceq
+
+Ex : 
+
+"Jeff" -eq "JEFF" ==> returns True
+
+"Jeff" -ceq "JEFF" ==> returns False
+
+h. -like , -notlike, -clike, -match (for regular expressions), -notmatch
+
+
+2. MATH AND RANGE OPERATORS
+   ------------------------
+
+- addition : +
+- substraction : -
+- multiplication : *
+- division : /
+
+- Range Operator : ..
+Ex : 1..5 ==> returns numbers from 1 to 5
+
+5..1 ==> returns numbers from 5 to 1 (reversed order)
+
+PS : range operator only works with numbers
+
+3. LOGICAL OPERATORS
+   -----------------
+
+- Operator AND : -and
+- Operator OR  : -or
+- Operator NOT : -not (or !)
+
+
+4. CHAIN OPERATORS (ONLY FOR POWERSHELL 7)
+   ---------------
+
+- OPERATOR &&
+- OPERATOR ||
+
+
+5. TERNARY OPERATORS (ONLY FOR POWERSHELL 7)
+   -----------------
+
+A ternary operator is an alternative to If/Else statement
+
+CONDITION_TO_TEST ? TRUE_CODE  : FALSE_CODE
+
+
+6. NULL OPERATORS (ONLY FOR POWERSHELL 7)
+   --------------
+- variable $null by default on all versions of PowerShell
+
+- NULL-COALESCING : ??
+- NULL-COALESCING ASSIGNMENT : ??=
+
+- NULL CONDITION OPERATOR : ?.
+
+
+
+ARRAYS AND HASHTABLES
+---------------------
+
+1. ARRAYS
+   ------
+An array is a data structure designed to store collection of items - these items can be of the same type or of different types.
+
+In PowerShell an array is created by separating items by commas.
+
+Ex : $array1 = 1,2,4
+     $array2 = "merci",3,"merde"
+
+To see the content of an array, we just invoke the name of the variable
+
+
+a. Count the number of items in an array
+
+In PowerShell, an array has a property "count" which allows to get the number of items of an array
+
+Ex : $array1 = 1,2,4
+     $array1.count #returns 3
+
+
+b. check if a variable is an array
+
+Ex : $array1 = 1,2,4
+     $array1 -is [array] # returns True
+
+c. Get item of an array
+
+We can get item of an array by its position
+
+Ex : $array1 = 1,2,4
+     $array1[1]  # returns 2
+     $array1[0..1] # returns 1 and 2
+
+PS : the position -1 returns the last item of an array
+
+
+d. Create empty array
+
+In PowerShell an empty array is created with the syntax @()
+
+Ex : $array1 = @()
+
+We can add items to an array with += operator
+
+Ex : $array1 += "merci"
+
+e. Check if array contains item
+
+We use operators -contains or -notcontains
+
+Ex : $array1 -contains 1
+
+PS : -contains is NOT CASE SENSITIVE
+
+
+We can also use -in or -notcontains
+
+Ex : 1 -in $array1
+
+
+The help for arrays is help about_arrays
+
+
+
+f. Split a string into an array
+   ----------------------------
+
+in order to split a string into an array, we use the split(DELIMITER) method
+
+
+Ex : 
+
+$str = "i am legend"
+$str.split()  # returns i,am,legend
+
+
+By default the DELIMITER is a space but we can change it.
+
+
+We cal also use the -split operator
+
+
+g. Turning array into string
+   -------------------------
+
+For this we use the -join operator
+
+Ex : $array1 = 1,2,3,4
+     $array1 -join "-"# returns 1-2-3-4
+
+
+2. HASHTABLES
+   ----------
+
+A hastable is a data structure with key/value pairs - the keys in hashtables are unique.
+
+Syntax for creating a hashtable
+-------------------------------
+$variable = @{key1=value1; key2=value2}
+
+each key/value pair is separated either by a semicolon (;) or by ENTER key
+
+Ex : 
+$variable = @{
+  key1=value1
+  key2 = value2 
+}
+
+PS : hastables are equivalent to dictionaries or objects in other programming languages.
+
+1. Access value of a key in a hashtable
+
+For getting value of a key in a hashtable, we can use object notation
+
+Ex : 
+
+$variable = @{
+  key1=value1
+  key2 = value2 
+}
+
+$variable.key1  # returns value1
+
+PS : we can use brackets notation to get value of key
+$variable["key1"]
+
+2. Add key/value pair into hastable
+-----------------------------------
+
+We sue the Add() method to add key/value pair into a hashtable
+
+Ex : $variable.Add("key3","value3")
+
+3. Remove all key/value pairs
+   --------------------------
+
+We use the Clear() method to remove all key/value paris from a hashtable
+
+4. ORDERED HASHTABLES
+---------------------
+Keys in a hashtable ARE NOT ORDERED. You can sort them by using the [ordered] keyword
+
+
+Ex : 
+
+$variable = [ordered]@{
+  key2 = value2
+  key1 = value1 
+} # returns {
+  key1 = value1
+  key2 = value2 
+}
+
+
+
+SCRIPT BLOCKS
+-------------
+A script block is a collection of statements which are used as a single unit. A script block can use parameters and can write to the pipeline
+
+Examples of script blocks 
+-------------------------
+- Where-object
+- ForEach-Object
+- Invoke-Command 
+
+a script block is surrounded with curly braces ({})
+
+Create a script block 
+---------------------
+$sb = { Get-Service | where { $_.status -eq 'running'}}
+
+To execute a script block, we use & or Invoke-Command : 
+& $sb
+Invoke-Command $sb
